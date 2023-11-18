@@ -1,0 +1,38 @@
+module.exports = {
+	home: {
+		onUkraine: 'Маршрути по Україні',
+		abroad: 'Маршрути за кордон',
+	},
+	ukraine: {
+		ternopil: 'Тернопіль',
+		lviv: 'Львів',
+		lytsk: 'Луцьк',
+		rivne: 'Рівне',
+		kuiv: 'Київ',
+		vinnutsa: 'Вінниця',
+		dnipro: 'Дніпро',
+		khmelnytsk: 'Хмельницьк',
+		zakarpatya: 'Закарпаття',
+		frankivsk: 'Івано-Франківськ',
+		zytomyr: 'Житомир',
+		chernivci: 'Чернівці',
+		cherkasy: 'Черкаси',
+		chernigiv: 'Чернігів',
+		poltava: 'Полтава',
+		kharkiv: 'Харків',
+		symu: 'Суми',
+		mykolaiv: 'Миколаїв',
+		zapirizia: 'Запоріжжя',
+		odesa: 'Одеса',
+	},
+	abroad: {
+		italia: 'Італія',
+		germany: 'Німеччина',
+		poland: 'Польща',
+		rymynia: 'Румунія',
+		lutva: 'Литва',
+	},
+	back: {
+		backs: 'Назад',
+	},
+}
