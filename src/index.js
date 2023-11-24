@@ -34,11 +34,11 @@ bot.on('message', async msg => {
 	}
 })
 
-// bot.onText(/\/myData/, async (msg) => {
-//     try {
-//         const myData = await authorizeAndFetchData();
-//         bot.sendMessage(msg.chat.id, `Отримані дані: ${myData}`);
-//     } catch (error) {
-//         bot.sendMessage(msg.chat.id, `Виникла помилка при отриманні даних: ${error.message}`);
-//     }
-// })
+bot.onText(/\/myData/, async (msg) => {
+    try {
+        const myData = await authorizeAndFetchData();
+        bot.sendMessage(msg.chat.id, `Отримані дані: ${myData}`);
+    } catch (error) {
+        bot.sendMessage(msg.chat.id, `Виникла помилка при отриманні даних: ${error.message}`);
+    }
+})

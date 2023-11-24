@@ -1,45 +1,30 @@
-// const config = require('./config')
-// const puppeteer = require('puppeteer')
-// const axios = require('axios');
+const puppeteer = require('puppeteer-extra')
+const config = require('./config')
 
-// async function authorizeAndFetchData() {
-// 	try {
-// 		const response = await axios.get('https://lardi-trans.com/uk/accounts/login/', {
-//             headers: {
-//                 Authorization: `Bearer ${config.authToken}`,
-//                 'Content-Type': 'application/json',
-//             },
-//         });
+async function authorizeAndFetchData() {
+	try {
+		const browser = await puppeteer.launch({
+			headless: false,
+			args: ['--start-maximized'],
+		})
+		const page = await browser.newPage()
 
-// 		const browser = await puppeteer.launch({ headless: "new" });
-//         const page = await browser.newPage();
-// 		const cookies = response.headers['set-cookie'];
-// 		const puppeteerCookies = cookies.map(cookie => {
-// 			const [name, value] = cookie.split(';')[0].split('=');
-// 			return {
-// 				name: name.trim(),
-// 				value: value.trim(),
-// 				domain: '.lardi-trans.com',
-// 			};
-// 		});
-		
-// 		await page.setCookie(...puppeteerCookies);
 
-// 		await page.goto('https://lardi-trans.com/log/mygruztrans/gruz/published')
+		await page.goto('https://lardi-trans.com/log/mygruztrans/gruz/published/')
+		await page.waitForNavigation()
+		await page.type(
+			'input[class="passport-input__input"]',
+			config.authorization.username
+		)
+		await page.type('input[type="password"]', config.authorization.password)
+		await page.click('button[type="submit"]')
 
-// 		const title = await page.$eval('.lrd-db--header__title', el =>
-// 			el.textContent.trim()
-// 		)
+		await browser.close()
+		return 'title'
+	} catch (error) {
+		console.error('Помилка при отриманні даних:', error)
+		throw new Error(error.message)
+	}
+}
 
-// 		console.log('Заголовок:', title)
-
-// 		await browser.close()
-
-// 		return title
-// 	} catch (error) {
-// 		console.error('Помилка при отриманні даних:', error)
-// 		throw new Error(error.message)
-// 	}
-// }
-
-// module.exports = authorizeAndFetchData
+module.exports = authorizeAndFetchData
