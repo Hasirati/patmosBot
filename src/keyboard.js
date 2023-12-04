@@ -16,7 +16,7 @@ module.exports = {
 	abroad: [
 		[kb.abroad.poland, kb.abroad.germany],
 		[kb.abroad.italia, kb.abroad.rymynia],
-		[kb.abroad.lutva]
+		[kb.abroad.lutva],
 		[kb.back.backs],
 	],
 }
