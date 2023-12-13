@@ -3,13 +3,13 @@ const config = require('./config')
 const kb = require('./keyboard-button')
 const keyboard = require('./keyboard')
 const handleStickers = require('./stickerLogic')
-const authorizeAndFetchData = require('./authorization')
+const processMyData = require('./dataProcessor')
 const bot = new TelegramApi(config.token, { polling: true })
 
 bot.on('message', async msg => {
 	const chatId = msg.chat.id
 
-	handleStickers(msg, bot, chatId);
+	handleStickers(msg, bot, chatId)
 
 	switch (msg.text) {
 		case kb.home.onUkraine:
@@ -34,11 +34,75 @@ bot.on('message', async msg => {
 	}
 })
 
-bot.onText(/\/myData/, async (msg) => {
-    try {
-        const myData = await authorizeAndFetchData();
-        bot.sendMessage(msg.chat.id, `Отримані дані: ${myData}`);
-    } catch (error) {
-        bot.sendMessage(msg.chat.id, `Виникла помилка при отриманні даних: ${error.message}`);
-    }
+bot.on('message', async msg => {
+	const chatId = msg.chat.id
+	switch (msg.text) {
+		case kb.ukraine.kuiv:
+			processMyData('Київська обл.', chatId, bot)
+			break
+		case kb.ukraine.lviv:
+			processMyData('Львівська обл.', chatId, bot)
+			break
+		case kb.ukraine.dnipro:
+			processMyData('Дніпропетровська обл.', chatId, bot)
+			break
+		case kb.ukraine.ternopil:
+			processMyData('Тернопільська обл.', chatId, bot)
+			break
+		case kb.ukraine.frankivsk:
+			processMyData('Івано-Франківська обл.', chatId, bot)
+			break
+		case kb.ukraine.lytsk:
+			processMyData('Волинська обл.', chatId, bot)
+			break
+		case kb.ukraine.rivne:
+			processMyData('Рівненська обл.', chatId, bot)
+			break
+		case kb.ukraine.symu:
+			processMyData('Сумська обл.', chatId, bot)
+			break
+		case kb.ukraine.vinnutsa:
+			processMyData('Вінницька обл.', chatId, bot)
+			break
+		case kb.ukraine.khmelnytsk:
+			processMyData('Хмельницька обл.', chatId, bot)
+			break
+		case kb.ukraine.poltava:
+			processMyData('Полтавська обл.', chatId, bot)
+			break
+		case kb.ukraine.kharkiv:
+			processMyData('Харківська обл.', chatId, bot)
+			break
+		case kb.ukraine.odesa:
+			processMyData('Одеська обл.', chatId, bot)
+			break
+		case kb.ukraine.zakarpatya:
+			processMyData('Закарпатська обл.', chatId, bot)
+			break
+		case kb.ukraine.zytomyr:
+			processMyData('Житомирська обл.', chatId, bot)
+			break
+		case kb.ukraine.chernivci:
+			processMyData('Чернівецька обл.', chatId, bot)
+			break
+		case kb.ukraine.cherkasy:
+			processMyData('Черкаська обл.', chatId, bot)
+			break
+		case kb.ukraine.chernigiv:
+			processMyData('Чернігівська обл.', chatId, bot)
+			break
+		case kb.ukraine.mykolaiv:
+			processMyData('Миколаївська обл.', chatId, bot)
+			break
+		case kb.ukraine.zapirizia:
+			processMyData('Запорізька обл.', chatId, bot)
+			break
+		case kb.abroad.poland:
+		case kb.abroad.germany:
+		case kb.abroad.italia:
+		case kb.abroad.rymynia:
+		case kb.abroad.lutva:
+			processMyData(msg.text, chatId, bot)
+			break
+	}
 })

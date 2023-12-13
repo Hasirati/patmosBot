@@ -18,7 +18,7 @@ async function handleStickers(msg, bot, chatId) {
 
 	if (['/start'].includes(msg.text.toLowerCase())) {
 		bot.onText(/\/start/, async msg => {
-			const text = `Вітаю, ${msg.from.first_name} ${msg.from.last_name}, оберіть один із пунктів`
+			const text = `Вітаю, ${msg.from.first_name}, оберіть один із пунктів`
 
 			await bot.sendSticker(
 				chatId,
