@@ -40,7 +40,7 @@ async function processMyData(city, chatId, bot) {
 			const sortedRoutes = uniqueRoutes.sort();
 		
 			let combinedMessage = `<b>Контакт:</b> ${person}\n<b>Телефон:</b> ${
-				personData[0]?.person || ''
+				personData[0]?.number || ''
 			}`;
 		
 			const messages = sortedRoutes.map(route => {

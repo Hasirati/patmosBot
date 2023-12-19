@@ -43,36 +43,72 @@ async function handleStickers(msg, bot, chatId) {
 					chatId,
 					'https://media.stickers.wiki/spiderverse/376357.160.webp'
 				)
+
+				await bot.sendMessage(chatId, 'Виберіть місто', {
+					reply_markup: {
+						keyboard: keyboard.home,
+					},
+				})
 				break
 			case 1:
 				await bot.sendSticker(
 					chatId,
 					'https://stickerswiki.ams3.cdn.digitaloceanspaces.com/SpiderVerse/376358.160.webp'
 				)
+
+				await bot.sendMessage(chatId, 'Виберіть місто', {
+					reply_markup: {
+						keyboard: keyboard.home,
+					},
+				})
 				break
 			case 2:
 				await bot.sendSticker(
 					chatId,
 					'https://stickerswiki.ams3.cdn.digitaloceanspaces.com/SpiderVerse/376339.160.webp'
 				)
+
+				await bot.sendMessage(chatId, 'Виберіть місто', {
+					reply_markup: {
+						keyboard: keyboard.home,
+					},
+				})
 				break
 			case 3:
 				await bot.sendSticker(
 					chatId,
 					'https://stickerswiki.ams3.cdn.digitaloceanspaces.com/SpiderVerse/376355.160.webp'
 				)
+
+				await bot.sendMessage(chatId, 'Виберіть місто', {
+					reply_markup: {
+						keyboard: keyboard.home,
+					},
+				})
 				break
 			case 4:
 				await bot.sendSticker(
 					chatId,
 					'https://stickerswiki.ams3.cdn.digitaloceanspaces.com/SpiderVerse/376345.160.webp'
 				)
+
+				await bot.sendMessage(chatId, 'Виберіть місто', {
+					reply_markup: {
+						keyboard: keyboard.home,
+					},
+				})
 				break
 			case 5:
 				await bot.sendSticker(
 					chatId,
 					'https://stickerswiki.ams3.cdn.digitaloceanspaces.com/SpiderVerse/376348.160.webp'
 				)
+
+				await bot.sendMessage(chatId, 'Виберіть місто', {
+					reply_markup: {
+						keyboard: keyboard.home,
+					},
+				})
 				break
 		}
 	}
