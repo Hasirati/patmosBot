@@ -1,6 +1,6 @@
 const authorization = require('./authorization')
 
-async function authorizeAndFetchData(city) {
+async function fetchData(city) {
 	try {
 		const browser = await authorization.launchBrowser()
 		const page = await browser.newPage()
@@ -11,15 +11,18 @@ async function authorizeAndFetchData(city) {
 		let hasNextPage = true
 
 		while (hasNextPage) {
-			const newData = await page.$$eval('.proposal-table--row', elements => {
-				return elements
-					.map(el => {
+			const newData = await page.$$eval(
+				'.proposal-table--row',
+				async elements => {
+					const newDataArray = []
+
+					for (const el of elements) {
 						const color = el.querySelector(
 							'.proposal-table--column--checkbox__cell'
 						).style.backgroundColor
 
 						if (color === 'rgb(197, 227, 243)') {
-							return null
+							continue
 						}
 
 						const dateElement = el.querySelector(
@@ -53,6 +56,10 @@ async function authorizeAndFetchData(city) {
 							'.proposal-table--column--payment__payment'
 						)
 
+						await el.click()
+						const number = el.querySelector('.lrd-db--phone__link')
+						await el.click('.lrd-db--header__title_back')
+
 						const getTextContent = element =>
 							element ? element.textContent.trim() : ''
 						const oblastTextElement =
@@ -62,7 +69,7 @@ async function authorizeAndFetchData(city) {
 							? priceElement.textContent.trim()
 							: '7-10 днів по оригіналах, ПДВ, або 3-тя група'
 
-						return {
+						newDataArray.push({
 							date: getTextContent(dateElement),
 							transport: getTextContent(transportElement),
 							weight: getTextContent(weightElement),
@@ -73,10 +80,15 @@ async function authorizeAndFetchData(city) {
 							oblast: oblastText,
 							cityUp: getTextContent(cityUpElement),
 							price: priceText,
-						}
-					})
-					.filter(item => item !== null)
-			})
+							number: number,
+						})
+					}
+
+					return newDataArray
+				},
+				page
+			)
+
 			data = data.concat(newData)
 
 			const nextPageButton = await page.$('.lrd-db--pagination__forward a')
@@ -101,4 +113,4 @@ async function authorizeAndFetchData(city) {
 	}
 }
 
-module.exports = authorizeAndFetchData
+module.exports = fetchData
