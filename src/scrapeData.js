@@ -1,25 +1,19 @@
-async function scrapeData(page) {
-	await page.waitForNavigation()
-	await page.waitForSelector('.proposal-table--column--contact')
+const authorization = require('./authorization')
 
-	let data = []
-	let hasNextPage = true
+async function authorizeAndFetchData(city) {
+	try {
+		const browser = await authorization.launchBrowser()
+		const page = await browser.newPage()
 
-	// const cityInput = await page.$('.lrd-ui-select__input input');
-	// await cityInput.type(city, { delay: 100 });
-	// await page.click('.lrd-ui-select__menu div');
-	// await page.keyboard.down('Enter');
-	// await page.keyboard.up('Enter');
+		await authorization.authorize(page)
 
-	// await page.waitForTimeout(2000)
-	// await page.click('.lrd-db__button_yellow');
+		let data = []
+		let hasNextPage = true
 
-	while (hasNextPage) {
-		const newData = await page.$$eval(
-			'.proposal-table--row',
-			async elements => {
-				return Promise.all(
-					elements.map(async el => {
+		while (hasNextPage) {
+			const newData = await page.$$eval('.proposal-table--row', elements => {
+				return elements
+					.map(el => {
 						const color = el.querySelector(
 							'.proposal-table--column--checkbox__cell'
 						).style.backgroundColor
@@ -27,16 +21,6 @@ async function scrapeData(page) {
 						if (color === 'rgb(197, 227, 243)') {
 							return null
 						}
-
-						await el.click()
-						await page.waitForSelector('.lrd-db--phone')
-
-						const numberElement = await el.$('.lrd-db--phone a')
-						const number = numberElement
-							? await numberElement.evaluate(node => node.textContent.trim())
-							: ''
-
-						await page.goBack()
 
 						const dateElement = el.querySelector(
 							'.proposal-table--column--date span'
@@ -89,25 +73,32 @@ async function scrapeData(page) {
 							oblast: oblastText,
 							cityUp: getTextContent(cityUpElement),
 							price: priceText,
-							number: number,
 						}
 					})
-				)
+					.filter(item => item !== null)
+			})
+			data = data.concat(newData)
+
+			const nextPageButton = await page.$('.lrd-db--pagination__forward a')
+			hasNextPage =
+				nextPageButton && !(await nextPageButton.isIntersectingViewport())
+
+			if (hasNextPage) {
+				await nextPageButton.click()
+				await page.waitForTimeout(2000)
 			}
-		)
-		data = data.concat(newData)
-
-		const nextPageButton = await page.$('.lrd-db--pagination__forward a')
-		hasNextPage =
-			nextPageButton && !(await nextPageButton.isIntersectingViewport())
-
-		if (hasNextPage) {
-			await nextPageButton.click()
-			await page.waitForTimeout(2000)
 		}
-	}
 
-	return data.flat()
+		await page.click('.lrd-ui-side-menu--user')
+		await page.click('.lrd-ui-side-menu--user--context__item a')
+
+		await authorization.closeBrowser(browser)
+
+		return data.flat()
+	} catch (error) {
+		console.error('Помилка при отриманні даних:', error)
+		throw new Error(error.message)
+	}
 }
 
-module.exports = scrapeData
+module.exports = authorizeAndFetchData

@@ -1,8 +1,8 @@
-const authorizeAndFetchData = require('./authorization')
+const fetchData = require('./scrapeData')
 
 async function processMyData(city, chatId, bot) {
 	try {
-		const myData = await authorizeAndFetchData(city)
+		const myData = await fetchData(city)
 
 		// for (let i = 0; i < myData.length; i++) {
 		// 	if (myData[i].oblast === city) {
