@@ -34,74 +34,48 @@ bot.on('message', async msg => {
 		case kb.info.info:
 			await bot.sendMessage(
 				chatId,
-				'<b>ПП "ПАТМОС"- транспортно-експедиційна компанія\n\nТут будуть розміщуватись актуальні вантажі нашої компанії\n\nКерівник транспортно-експедиційного відділу</b>\nЗятик Марія: +380673609336\n\n<b>Відділ власного транспорту</b>\nВалерія: +380672557176\n\n<b>Бухгалтерія</b>\n<i>На перевірку документи відправляти:</i> patmos.ua@gmail.com\n<i>Для уточнення: +380673608993</i>\n\n<b>Оригінали документів відправляти за адресою:\n\nПОШТА:</b> 46003, м. Тернопіль, вул., Котляревського, 69 прим. 154\n<b>НОВА ПОШТА:</b>  м. Тернопіль, відділення №11 вул., Полковника Данила Нечая, 25а, +380673608993 ПП «ПАТМОС», ЄДРПОУ 40756025\n\nПрацюємо з перевізниками які є платники ПДВ або ФОП 3-ї групи.\nОплата за надані послуги відбувається по оригіналах документів 7-10 днів.', { parse_mode: 'HTML' }
+				'<b>ПП "ПАТМОС"- транспортно-експедиційна компанія\n\nТут будуть розміщуватись актуальні вантажі нашої компанії\n\nКерівник транспортно-експедиційного відділу</b>\nЗятик Марія: +380673609336\n\n<b>Відділ власного транспорту</b>\nВалерія: +380672557176\n\n<b>Бухгалтерія</b>\n<i>На перевірку документи відправляти:</i> patmos.ua@gmail.com\n<i>Для уточнення: +380673608993</i>\n\n<b>Оригінали документів відправляти за адресою:\n\nПОШТА:</b> 46003, м. Тернопіль, вул., Котляревського, 69 прим. 154\n<b>НОВА ПОШТА:</b>  м. Тернопіль, відділення №11 вул., Полковника Данила Нечая, 25а, +380673608993 ПП «ПАТМОС», ЄДРПОУ 40756025\n\nПрацюємо з перевізниками які є платники ПДВ або ФОП 3-ї групи.\nОплата за надані послуги відбувається по оригіналах документів 7-10 днів.',
+				{ parse_mode: 'HTML' }
 			)
 			break
 	}
 })
 
+function delay(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 bot.on('message', async msg => {
 	const chatId = msg.chat.id
 	switch (msg.text) {
 		case kb.ukraine.kuiv:
-			processMyData('Київська обл.', chatId, bot)
-			break
 		case kb.ukraine.lviv:
-			processMyData('Львівська обл.', chatId, bot)
-			break
 		case kb.ukraine.dnipro:
-			processMyData('Дніпропетровська обл.', chatId, bot)
-			break
 		case kb.ukraine.ternopil:
-			processMyData('Тернопільська обл.', chatId, bot)
-			break
 		case kb.ukraine.frankivsk:
-			processMyData('Івано-Франківська обл.', chatId, bot)
-			break
 		case kb.ukraine.lytsk:
-			processMyData('Волинська обл.', chatId, bot)
-			break
 		case kb.ukraine.rivne:
-			processMyData('Рівненська обл.', chatId, bot)
-			break
 		case kb.ukraine.symu:
-			processMyData('Сумська обл.', chatId, bot)
-			break
 		case kb.ukraine.vinnutsa:
-			processMyData('Вінницька обл.', chatId, bot)
-			break
 		case kb.ukraine.khmelnytsk:
-			processMyData('Хмельницька обл.', chatId, bot)
-			break
 		case kb.ukraine.poltava:
-			processMyData('Полтавська обл.', chatId, bot)
-			break
 		case kb.ukraine.kharkiv:
-			processMyData('Харківська обл.', chatId, bot)
-			break
 		case kb.ukraine.odesa:
-			processMyData('Одеська обл.', chatId, bot)
-			break
 		case kb.ukraine.zakarpatya:
-			processMyData('Закарпатська обл.', chatId, bot)
-			break
 		case kb.ukraine.zytomyr:
-			processMyData('Житомирська обл.', chatId, bot)
-			break
 		case kb.ukraine.chernivci:
-			processMyData('Чернівецька обл.', chatId, bot)
-			break
 		case kb.ukraine.cherkasy:
-			processMyData('Черкаська обл.', chatId, bot)
-			break
 		case kb.ukraine.chernigiv:
-			processMyData('Чернігівська обл.', chatId, bot)
-			break
 		case kb.ukraine.mykolaiv:
-			processMyData('Миколаївська обл.', chatId, bot)
-			break
 		case kb.ukraine.zapirizia:
-			processMyData('Запорізька обл.', chatId, bot)
+			processMyData(msg.text, chatId, bot)
+			await delay(5000)
+			await bot.sendMessage(chatId, 'Зачекайте хвилинку...')
+			await delay(10000)
+			await bot.sendSticker(
+				chatId,
+				'https://media.stickerswiki.app/rayms/7267.512.webp'
+			)
 			break
 		case kb.abroad.poland:
 		case kb.abroad.germany:
