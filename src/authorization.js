@@ -17,8 +17,22 @@ async function authorize(page) {
 	)
 	await page.type('input[type="password"]', config.authorization.password)
 	await page.click('button[type="submit"]')
-	await page.waitForNavigation()
-	await page.waitForSelector('.proposal-table--column--contact')
+	await page.waitForTimeout(2000)
+	//const htmlContent = await page.content()
+
+	const modalEl = await page.$('.lrd-db--modal__title')
+
+	if (modalEl) {
+		const modal = await modalEl.evaluate(el => el.textContent.trim())
+		console.log(modal)
+		await page.click('.lrd-ui-button_grey')
+		await page.waitForNavigation()
+		await page.waitForSelector('.proposal-table--column--contact')
+	} else {
+		console.log('Елемент не знайдено')
+		await page.waitForNavigation()
+		await page.waitForSelector('.proposal-table--column--contact')
+	}
 }
 
 async function closeBrowser(browser) {
