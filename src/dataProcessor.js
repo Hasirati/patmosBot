@@ -1,4 +1,5 @@
 const fetchData = require('./scrapeData')
+const phoneNumberMapping = require('./phoneNumberMapping')
 
 async function processMyData(city, chatId, bot) {
 	try {
@@ -31,31 +32,40 @@ async function processMyData(city, chatId, bot) {
 				groupedData[person].push(myData[i])
 			}
 		}
-		const sortedPersons = Object.keys(groupedData).sort();
+		const sortedPersons = Object.keys(groupedData).sort()
 
 		for (const person of sortedPersons) {
-			const personData = groupedData[person];
-		
-			const uniqueRoutes = Array.from(new Set(personData.map(data => `${data.cityGo} ➙ ${data.cityUp}`)));
-			const sortedRoutes = uniqueRoutes.sort();
-		
-			let combinedMessage = `<b>Контакт:</b> ${person}\n<b>Телефон:</b> ${
-				personData[0]?.number || ''
-			}`;
-		
+			const personData = groupedData[person]
+
+			const uniqueRoutes = Array.from(
+				new Set(personData.map(data => `${data.cityGo} ➙ ${data.cityUp}`))
+			)
+			const sortedRoutes = uniqueRoutes.sort()
+
+			let combinedMessage = `<b>Контакт:</b> ${person}\n<b>Телефон:</b> ${getPhoneNumberForPerson(
+				person
+			)}`
+
 			const messages = sortedRoutes.map(route => {
-				return route;
-			});
-		
-			combinedMessage += '\n\n' + messages.join('\n');
-			await bot.sendMessage(chatId, combinedMessage, { parse_mode: 'HTML' });
+				return route
+			})
+
+			combinedMessage += '\n\n' + messages.join('\n')
+			await bot.sendMessage(chatId, combinedMessage, { parse_mode: 'HTML' })
 		}
-		
 	} catch (error) {
 		bot.sendMessage(
 			chatId,
 			`Виникла помилка при отриманні даних: ${error.message}`
 		)
+	}
+}
+
+function getPhoneNumberForPerson(person) {
+	if (phoneNumberMapping[person]) {
+		return phoneNumberMapping[person][0]
+	} else {
+		return ''
 	}
 }
 
