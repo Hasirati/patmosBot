@@ -13,17 +13,17 @@ bot.on('message', async msg => {
 
 	switch (msg.text) {
 		case kb.home.onUkraine:
-			await bot.sendMessage(chatId, 'Виберіть місто', {
+			await bot.sendMessage(chatId, 'Виберіть область', {
 				reply_markup: { keyboard: keyboard.ukraine },
 			})
 			break
 		case kb.home.abroad:
-			await bot.sendMessage(chatId, 'Виберіть місто', {
+			await bot.sendMessage(chatId, 'Виберіть область', {
 				reply_markup: { keyboard: keyboard.abroad },
 			})
 			break
 		case kb.back.backs:
-			await bot.sendMessage(chatId, 'Отооож', {
+			await bot.sendMessage(chatId, 'Оберіть один із пунктів', {
 				reply_markup: { keyboard: keyboard.home },
 			})
 			await bot.sendSticker(
@@ -69,13 +69,15 @@ bot.on('message', async msg => {
 		case kb.ukraine.mykolaiv:
 		case kb.ukraine.zapirizia:
 			processMyData(msg.text, chatId, bot)
-			await delay(5000)
+			await delay(1000)
 			await bot.sendMessage(chatId, 'Зачекайте хвилинку...')
 			await delay(10000)
 			await bot.sendSticker(
 				chatId,
 				'https://media.stickerswiki.app/rayms/7267.512.webp'
 			)
+			await delay(10000)
+			await bot.sendMessage(chatId, 'Підбираємо актуальні вантажі')
 			break
 		case kb.abroad.poland:
 		case kb.abroad.germany:

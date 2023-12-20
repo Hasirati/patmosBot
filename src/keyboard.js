@@ -1,7 +1,7 @@
 const kb = require('./keyboard-button')
 
 module.exports = {
-	home: [[kb.home.onUkraine, kb.home.abroad], [kb.info.info]],
+	home: [[kb.home.onUkraine], [kb.info.info]],
 	ukraine: [
 		[kb.ukraine.lviv, kb.ukraine.ternopil],
 		[kb.ukraine.zakarpatya, kb.ukraine.frankivsk, kb.ukraine.chernivci],
