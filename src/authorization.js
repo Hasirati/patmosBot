@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer')
-const config = require('./config')
+const config = require('../config')
 
 async function launchBrowser() {
 	return await puppeteer.launch({
