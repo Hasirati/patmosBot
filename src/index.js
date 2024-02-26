@@ -1,5 +1,5 @@
 const TelegramApi = require('node-telegram-bot-api')
-const config = require('../config')
+const config = require('./config')
 const kb = require('./keyboard-button')
 const keyboard = require('./keyboard')
 const handleStickers = require('./stickerLogic')
